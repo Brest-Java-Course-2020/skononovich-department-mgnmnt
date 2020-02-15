@@ -5,7 +5,7 @@ import com.epam.brest.courses.model.Department;
 
 import java.util.List;
 
-public class DepartmentDao {
+public interface DepartmentDao {
 
     public List<Department> getDepartments;
 }
