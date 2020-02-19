@@ -1,4 +1,4 @@
-package com.epam.brest.couses.dao;
+package com.epam.brest.courses.dao;
 
 
 import com.epam.brest.courses.model.Department;

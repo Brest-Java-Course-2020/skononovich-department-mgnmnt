@@ -20,6 +20,7 @@
         <org.springframework.version>5.1.4.RELEASE</org.springframework.version>
         <java.version>1.8</java.version>
         <junit.verson>5.2.0</junit.verson>
+        <logback.version>1.2.3</logback.version>
     </properties>
 
     <dependencyManagement>
@@ -34,13 +35,6 @@
                 <groupId>com.epam.brest.courses</groupId>
                 <artifactId>department-management-dao</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.epam.brest.courses</groupId>
-                <artifactId>department-management-test</artifactId>
-                <version>${project.version}</version>
-                <scope>test</scope>
             </dependency>
 
             <dependency>
@@ -65,6 +59,37 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
                 <version>${org.springframework.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.200</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.30</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.courses</groupId>
+                <artifactId>department-management-test</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
@@ -94,13 +119,6 @@
                 <version>${junit.verson}</version>
                 <scope>test</scope>
             </dependency>
-
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>1.4.200</version>
-            </dependency>
-
 
         </dependencies>
     </dependencyManagement>

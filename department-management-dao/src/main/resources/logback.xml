@@ -1,0 +1,27 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:MM:SS}[%thread] %-5level %logger{5} -%msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.FileAppender">
+        <file>log/prj.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>
+                %d{HH:MM:SS}[%thread] %-5level %logger{5} -%msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.epam.brest.couses" level="TRACE">
+        <appender-ref ref="STDOUT"></appender-ref>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

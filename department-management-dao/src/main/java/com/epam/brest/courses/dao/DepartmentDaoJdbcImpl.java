@@ -1,6 +1,8 @@
-package com.epam.brest.couses.dao;
+package com.epam.brest.courses.dao;
 
 import com.epam.brest.courses.model.Department;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -10,8 +12,12 @@ import java.util.List;
 
 public class DepartmentDaoJdbcImpl implements DepartmentDao {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentDaoJdbcImpl.class);
+
     private static final String SQL_GET_DEPARTMENT_ID_NAME
             = "SELECT d.departmentId, d.departmentName FROM department d ORDER BY d.departmentName";
+    private static final String SQL_GET_DEPARTMENT_BY_ID
+            = "SELECT d.departmentId, d.departmentName FROM department d WHERE departmentId=:departmentId";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -21,6 +27,7 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
 
     @Override
     public List<Department> getDepartments() {
+        LOGGER.info("Вызван метод getDepartments");
         List<Department> departments = namedParameterJdbcTemplate
                 .query(SQL_GET_DEPARTMENT_ID_NAME, new DepartmentRowMapper());
         return departments;
@@ -28,7 +35,10 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
 
     @Override
     public Department getDepartmentById(Integer departmentId) {
-        return null;
+//        Department department = new namedParameterJdbcTemplate.queryForObject(
+//                SQL_GET_DEPARTMENT_BY_ID, new MapSqlParameterSource("departmentId", departmentId), Department.class);
+//        return department;
+    return null;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.epam.brest.couses.dao;
+package com.epam.brest.courses.dao;
 
 
 import com.epam.brest.courses.model.Department;
@@ -27,10 +27,13 @@ public class DepartmentDaoJdbcImplTest {
 
     @Test
     public void getDepartmentById() {
+//        Department department = departmentDao.getDepartmentById(1);
+//        assertNotNull(department);
     }
 
     @Test
     public void addDepartment() {
+
     }
 
     @Test
@@ -39,5 +42,7 @@ public class DepartmentDaoJdbcImplTest {
 
     @Test
     public void deleteDepartment() {
+
+       // assertEquals(0, );
     }
 }

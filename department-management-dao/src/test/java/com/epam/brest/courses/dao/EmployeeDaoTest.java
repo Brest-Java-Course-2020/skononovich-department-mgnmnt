@@ -1,4 +1,4 @@
-package com.epam.brest.couses.dao;
+package com.epam.brest.courses.dao;
 import org.junit.jupiter.api.Test;
 
 public class EmployeeDaoTest {

@@ -1,4 +1,4 @@
-package com.epam.brest.couses.dao;
+package com.epam.brest.courses.dao;
 
 import com.epam.brest.courses.model.Employee;
 
@@ -15,4 +15,5 @@ public interface EmployeeDao {
     void updateEmployee(Employee employee);
 
     void deleteEmployee(Integer employeeId);
+
 }
