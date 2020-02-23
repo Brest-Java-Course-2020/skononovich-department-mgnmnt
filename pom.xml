@@ -21,6 +21,7 @@
         <java.version>1.8</java.version>
         <junit.verson>5.2.0</junit.verson>
         <logback.version>1.2.3</logback.version>
+        <mockito.version>3.1.0</mockito.version>
     </properties>
 
     <dependencyManagement>
@@ -85,6 +86,8 @@
                 <version>${logback.version}</version>
             </dependency>
 
+
+
             <dependency>
                 <groupId>com.epam.brest.courses</groupId>
                 <artifactId>department-management-test</artifactId>
@@ -117,6 +120,20 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.verson}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
 

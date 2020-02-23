@@ -14,7 +14,9 @@
     </bean>
 
     <jdbc:initialize-database>
-        <jdbc:script location="create-db.sql"/>
-        <jdbc:script location="add-values-to-db.sql"/>
+        <jdbc:script location="create-department-table.sql"/>
+        <jdbc:script location="create-employee-table.sql"/>
+        <jdbc:script location="add-values-to-department.sql"/>
+        <jdbc:script location="add-values-to-employee.sql"/>
     </jdbc:initialize-database>
 </beans>
