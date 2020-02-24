@@ -5,6 +5,7 @@ import com.epam.brest.courses.model.Department;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -49,14 +50,14 @@ public class DepartmentDaoJdbcImplTest {
     @Test //exception
     public void addInvalidDepartment(){
         Department addedInvalidDepartment = new Department();
-        departmentDao.addDepartment(addedInvalidDepartment);
+        assertThrows(DataIntegrityViolationException.class, () -> departmentDao.addDepartment(addedInvalidDepartment));
     }
 
     @Test //exception
     public void addConflictDepartment(){
         Department department = new Department();
         department.setDepartmentName("SEO");
-        departmentDao.addDepartment(department);
+        assertThrows(DataIntegrityViolationException.class, () -> departmentDao.addDepartment(department));
     }
 
     @Test
