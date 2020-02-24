@@ -7,18 +7,21 @@
         </encoder>
     </appender>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.FileAppender">
-        <file>log/prj.log</file>
-        <append>true</append>
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>log/rollingLog.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>log/rollingLog-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>1000</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
         <encoder>
-            <pattern>
-                %d{HH:MM:SS}[%thread] %-5level %logger{5} -%msg%n
-            </pattern>
+            <pattern>%relative [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="com.epam.brest.couses" level="TRACE">
-        <appender-ref ref="STDOUT"></appender-ref>
+    <logger name="com.epam.brest.courses" level="DEBUG">
+        <appender-ref ref="ROLLING"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
 
     <root level="INFO">

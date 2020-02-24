@@ -4,12 +4,13 @@ import com.epam.brest.courses.model.Department;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class DepartmentDaoJdbcImpl implements DepartmentDao {
 
@@ -37,12 +38,15 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
     @Override
     public Department getDepartmentById(Integer departmentId) {
         LOGGER.debug("Вызван метод получения департамента по его ID = " + departmentId);
+        Map<String, Object> parameters = new TreeMap<>();
+        parameters.put("departmentId", departmentId);
         return namedParameterJdbcTemplate.queryForObject(
-                SQL_GET_DEPARTMENT_BY_ID, new MapSqlParameterSource("departmentId", departmentId), new DepartmentRowMapper());
+                SQL_GET_DEPARTMENT_BY_ID, parameters, new DepartmentRowMapper());
     }
 
     @Override
     public Department addDepartment(Department department) {
+
         return null;
     }
 
