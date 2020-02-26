@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:test-dao.xml"})
+@Rollback
 public class DepartmentDaoJdbcImplTest {
     Integer NONEXISTENT_ID = 200;
 
@@ -23,7 +25,6 @@ public class DepartmentDaoJdbcImplTest {
     @Test
     public void getDepartments() {
         assertNotNull(departmentDao.getDepartments());
-        assertEquals(3, departmentDao.getDepartments().size());
     }
 
     @Test
@@ -32,7 +33,7 @@ public class DepartmentDaoJdbcImplTest {
     }
 
     @Test
-    public void getNonexistentDepartmentById(){
+    public void getNonexistentDepartmentById() {
         assertThrows(EmptyResultDataAccessException.class, () -> departmentDao.getDepartmentById(NONEXISTENT_ID));
     }
 
@@ -47,16 +48,16 @@ public class DepartmentDaoJdbcImplTest {
         assertEquals("SECURITY", returnedDepartment.getDepartmentName());
     }
 
-    @Test //exception
-    public void addInvalidDepartment(){
+    @Test
+    public void addInvalidDepartment() {
         Department addedInvalidDepartment = new Department();
         assertThrows(DataIntegrityViolationException.class, () -> departmentDao.addDepartment(addedInvalidDepartment));
     }
 
-    @Test //exception
-    public void addConflictDepartment(){
+    @Test
+    public void addConflictDepartment() {
         Department department = new Department();
-        department.setDepartmentName("SEO");
+        department.setDepartmentName("HR");
         assertThrows(DataIntegrityViolationException.class, () -> departmentDao.addDepartment(department));
     }
 
@@ -64,28 +65,29 @@ public class DepartmentDaoJdbcImplTest {
     public void updateDepartment() {
         Department department = new Department();
         department.setDepartmentId(1);
-        department.setDepartmentName("ACCOUNTING");
+        department.setDepartmentName("TEST");
         departmentDao.updateDepartment(department);
-        assertEquals(department, departmentDao.getDepartmentById(1));
+        assertEquals(department.getDepartmentName(), departmentDao.getDepartmentById(1).getDepartmentName());
     }
 
-    @Test //exception
-    public void updateInvalidDepartment(){
+    @Test //exceptionassertEquals(
+    public void updateInvalidDepartment() {
         Department department = departmentDao.getDepartmentById(1);
         department.setDepartmentName(null);
-        departmentDao.updateDepartment(department);
+        assertThrows(DataIntegrityViolationException.class, () -> departmentDao.updateDepartment(department));
     }
 
     @Test //exception
-    public void updateDepartmentConflict(){
+    public void updateDepartmentConflict() {
         Department department = departmentDao.getDepartmentById(1);
         department.setDepartmentName("DEVELOPERS");
-        departmentDao.updateDepartment(department);
+        assertThrows(DataIntegrityViolationException.class, () -> departmentDao.updateDepartment(department));
     }
 
     @Test
     public void deleteDepartment() {
-        assertEquals(1, departmentDao.deleteDepartment(2));
-        assertEquals(0, departmentDao.deleteDepartment(NONEXISTENT_ID));
+        int recordsBeforeDelete = departmentDao.getDepartments().size();
+        departmentDao.deleteDepartment(2);
+        assertEquals(recordsBeforeDelete - 1, departmentDao.getDepartments().size());
     }
 }
