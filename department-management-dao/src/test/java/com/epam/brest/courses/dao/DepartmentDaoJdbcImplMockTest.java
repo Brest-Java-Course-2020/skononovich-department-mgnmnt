@@ -9,6 +9,7 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,8 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DepartmentDaoJdbcImplMockTest {
@@ -39,10 +39,15 @@ public class DepartmentDaoJdbcImplMockTest {
 
     @Test
     public void getDepartments() throws SQLException {
+
+        int id = 5;
+        String name = "name";
+        String sql = "select";
+
+        ReflectionTestUtils.setField(departmentDao,"sqlGetDepartments", sql);
+
         Department department = new Department();
         ResultSet rs = mock(ResultSet.class);
-        int id=5;
-        String name = "name";
 
         when(namedParameterJdbcTemplate.query(anyString(), any(RowMapper.class))).thenReturn(Collections.singletonList(department));
         when(rs.getInt(anyString())).thenReturn(5);
@@ -53,10 +58,10 @@ public class DepartmentDaoJdbcImplMockTest {
         assertNotNull(departments);
         assertEquals(1, departments.size());
         Department dep = departments.get(0);
+        assertNotNull(dep);
         assertSame(dep, department);
 
-        Mockito.verify(namedParameterJdbcTemplate).query(
-                eq("SELECT d.departmentId, d.departmentName FROM department d ORDER BY d.departmentName"), mapper.capture());
+        verify(namedParameterJdbcTemplate).query(eq(sql), mapper.capture());
 
         RowMapper<Department> rowMapper = mapper.getValue();
         assertNotNull(rowMapper);

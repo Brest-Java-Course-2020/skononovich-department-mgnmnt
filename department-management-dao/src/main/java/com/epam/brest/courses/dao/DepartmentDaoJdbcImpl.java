@@ -20,7 +20,7 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentDaoJdbcImpl.class);
 
     @Value("${department.sqlGetDepartments}")
-    private String SQL_GET_DEPARTMENTS;
+    private String sqlGetDepartments;
 
     @Value("${department.sqlGetDepartmentById}")
     private String SQL_GET_DEPARTMENT_BY_ID;
@@ -36,15 +36,6 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
 
     private KeyHolder keyHolder = new GeneratedKeyHolder();
 
-//    private static final String SQL_GET_DEPARTMENTS
-//            = "SELECT d.departmentId, d.departmentName FROM department d ORDER BY d.departmentName";
-//    private static final String SQL_GET_DEPARTMENT_BY_ID
-//            = "SELECT d.departmentId, d.departmentName FROM department d WHERE departmentId = :departmentId";
-//    private static final String SQL_UPDATE_DEPARTMENT
-//            = "UPDATE department SET departmentName = :departmentName WHERE departmentId = :departmentId";
-//    private static final String SQL_ADD_DEPARTMENT = "INSERT INTO department(departmentName) values (:departmentName)";
-//    private static final String SQL_DELETE_DEPARTMENT = "DELETE FROM department WHERE departmentId = :departmentId";
-
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public DepartmentDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -54,7 +45,7 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
     @Override
     public List<Department> getDepartments() {
         LOGGER.debug("Вызван метод getDepartments");
-        return namedParameterJdbcTemplate.query(SQL_GET_DEPARTMENTS, new DepartmentRowMapper());
+        return namedParameterJdbcTemplate.query(sqlGetDepartments, new DepartmentRowMapper());
     }
 
     @Override
