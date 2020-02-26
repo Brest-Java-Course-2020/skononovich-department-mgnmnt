@@ -3,6 +3,7 @@ package com.epam.brest.courses.dao;
 import com.epam.brest.courses.model.Department;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,19 +19,31 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentDaoJdbcImpl.class);
 
+    @Value("${department.sqlGetDepartments}")
+    private String SQL_GET_DEPARTMENTS;
+
+    @Value("${department.sqlGetDepartmentById}")
+    private String SQL_GET_DEPARTMENT_BY_ID;
+
+    @Value("${department.sqlAddDepartment}")
+    private String SQL_ADD_DEPARTMENT;
+
+    @Value("${department.sqlUpdateDepartment}")
+    private String SQL_UPDATE_DEPARTMENT;
+
+    @Value("${department.sqlDeleteDepartment}")
+    private String SQL_DELETE_DEPARTMENT;
+
     private KeyHolder keyHolder = new GeneratedKeyHolder();
 
-    private static final String SQL_GET_DEPARTMENT_ID_NAME
-            = "SELECT d.departmentId, d.departmentName FROM department d ORDER BY d.departmentName";
-    private static final String SQL_GET_DEPARTMENT_BY_ID
-            = "SELECT d.departmentId, d.departmentName FROM department d WHERE departmentId = :departmentId";
-    private static final String SQL_UPDATE_DEPARTMENT
-            = "UPDATE department SET departmentName = :departmentName WHERE departmentId = :departmentId";
-    private static final String SQL_ADD_DEPARTMENT = "INSERT INTO department(departmentName) values (:departmentName)";
-    private static final String SQL_DELETE_DEPARTMENT = "DELETE FROM department WHERE departmentId = :departmentId";
-
-
-
+//    private static final String SQL_GET_DEPARTMENTS
+//            = "SELECT d.departmentId, d.departmentName FROM department d ORDER BY d.departmentName";
+//    private static final String SQL_GET_DEPARTMENT_BY_ID
+//            = "SELECT d.departmentId, d.departmentName FROM department d WHERE departmentId = :departmentId";
+//    private static final String SQL_UPDATE_DEPARTMENT
+//            = "UPDATE department SET departmentName = :departmentName WHERE departmentId = :departmentId";
+//    private static final String SQL_ADD_DEPARTMENT = "INSERT INTO department(departmentName) values (:departmentName)";
+//    private static final String SQL_DELETE_DEPARTMENT = "DELETE FROM department WHERE departmentId = :departmentId";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -41,7 +54,7 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
     @Override
     public List<Department> getDepartments() {
         LOGGER.debug("Вызван метод getDepartments");
-        return namedParameterJdbcTemplate.query(SQL_GET_DEPARTMENT_ID_NAME, new DepartmentRowMapper());
+        return namedParameterJdbcTemplate.query(SQL_GET_DEPARTMENTS, new DepartmentRowMapper());
     }
 
     @Override
