@@ -2,26 +2,67 @@ package com.epam.brest.courses.dao;
 
 import com.epam.brest.courses.model.Department;
 import com.epam.brest.courses.model.Employee;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeeDaoJdbcImpl implements EmployeeDao {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeDaoJdbcImpl.class);
+
+    private KeyHolder keyHolder = new GeneratedKeyHolder();
+
+    @Value("${employee.sqlGetEmployees}")
+    String sqlGetEmployees;
+
+    @Value("${employee.sqlGetEmployeeById}")
+    String sqlGetEmployeeById;
+
+    @Value("${employee.sqlAddEmployee}")
+    String sqlAddEmployee;
+
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    public EmployeeDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
     @Override
     public List<Employee> getEmployees() {
-        return null;
+        LOGGER.debug("Вызван метод getDepartments");
+        return namedParameterJdbcTemplate.query(sqlGetEmployees, new EmployeeRowMapper());
     }
 
     @Override
     public Employee getEmployeeById(Integer employeeId) {
-        return null;
+        LOGGER.debug("Вызван метод getEmployeeById");
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("employeeId", employeeId);
+        return namedParameterJdbcTemplate.queryForObject(sqlGetEmployeeById, parameters, new EmployeeRowMapper());
     }
 
     @Override
     public Employee addEmployee(Employee employee) {
-        return null;
+        LOGGER.debug("Вызван метод добаления сотрудника:" + employee.toString());
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("departmentId", employee.getDepartmentId());
+        parameters.addValue("firstName", employee.getFirstName());
+        parameters.addValue("lastName", employee.getLastName());
+        parameters.addValue("salary", employee.getSalary());
+        namedParameterJdbcTemplate.update(sqlAddEmployee, parameters, keyHolder);
+        Employee addedEmployee = getEmployeeById(keyHolder.getKey().intValue());
+        return addedEmployee;
     }
 
     @Override
