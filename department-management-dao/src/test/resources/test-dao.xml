@@ -8,7 +8,7 @@
         <constructor-arg ref="jdbcTemplate"/>
     </bean>
 
-    <bean id="employeeDao" class="com.epam.brest.courses.dao.DepartmentDaoJdbcImpl">
+    <bean id="employeeDao" class="com.epam.brest.courses.dao.EmployeeDaoJdbcImpl">
         <constructor-arg ref="jdbcTemplate"/>
     </bean>
 
