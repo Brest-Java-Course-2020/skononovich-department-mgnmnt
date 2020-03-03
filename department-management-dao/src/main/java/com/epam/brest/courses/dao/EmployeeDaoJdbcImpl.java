@@ -23,6 +23,8 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 
     private KeyHolder keyHolder = new GeneratedKeyHolder();
 
+
+
     @Value("${employee.sqlGetEmployees}")
     String sqlGetEmployees;
 
@@ -31,6 +33,12 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 
     @Value("${employee.sqlAddEmployee}")
     String sqlAddEmployee;
+
+    @Value("${employee.sqlUpdateEmployee}")
+    String sqlUpdateEmployee;
+
+    @Value("${employee.sqlDeleteEmployee}")
+    String sqlDeleteEmployee;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -55,24 +63,33 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
     @Override
     public Employee addEmployee(Employee employee) {
         LOGGER.debug("Вызван метод добаления сотрудника:" + employee.toString());
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("departmentId", employee.getDepartmentId());
-        parameters.addValue("firstName", employee.getFirstName());
-        parameters.addValue("lastName", employee.getLastName());
-        parameters.addValue("salary", employee.getSalary());
-        namedParameterJdbcTemplate.update(sqlAddEmployee, parameters, keyHolder);
+        namedParameterJdbcTemplate.update(sqlAddEmployee, getParameter(employee), keyHolder);
         Employee addedEmployee = getEmployeeById(keyHolder.getKey().intValue());
         return addedEmployee;
     }
 
     @Override
     public void updateEmployee(Employee employee) {
-
+        LOGGER.debug("Вызван метод обновления сотрудника с : id = " + employee.getEmployeeId());
+        namedParameterJdbcTemplate.update(sqlUpdateEmployee, getParameter(employee));
     }
 
     @Override
     public void deleteEmployee(Integer employeeId) {
+        LOGGER.debug("Вызван метод удаления департамента : id = " + employeeId);
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("employeeId", employeeId);
+        namedParameterJdbcTemplate.update(sqlDeleteEmployee, parameters);
+    }
 
+    private MapSqlParameterSource getParameter(Employee employee){
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("employeeId", employee.getEmployeeId());
+        parameters.addValue("departmentId", employee.getDepartmentId());
+        parameters.addValue("firstName", employee.getFirstName());
+        parameters.addValue("lastName", employee.getLastName());
+        parameters.addValue("salary", employee.getSalary());
+        return parameters;
     }
 
     private class EmployeeRowMapper implements RowMapper<Employee> {

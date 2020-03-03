@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -12,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:test-dao.xml", "classpath*:dao.xml"})
+@Rollback
 public class EmployeeDaoJdbcImplTest {
     Integer NONEXISTENT_ID = 200;
 
@@ -52,8 +54,14 @@ public class EmployeeDaoJdbcImplTest {
         employee.setDepartmentId(1);
         employee.setFirstName("FName");
         employee.setLastName("LName");
+        employee.setSalary(0d);
         employeeDao.updateEmployee(employee);
-        assertEquals(employee, employeeDao.getEmployeeById(3));
+        Employee addedEmployee = employeeDao.getEmployeeById(3);
+        assertEquals(employee.getEmployeeId(), addedEmployee.getEmployeeId());
+        assertEquals(employee.getDepartmentId(), addedEmployee.getDepartmentId());
+        assertEquals(employee.getFirstName(), addedEmployee.getFirstName());
+        assertEquals(employee.getLastName(), addedEmployee.getLastName());
+        assertEquals(employee.getSalary(), addedEmployee.getSalary());
     }
 
     @Test
