@@ -26,9 +26,9 @@ public interface EmployeeDao {
      * Add new employee.
      *
      * @param employee employee.
-     * @return added employee.
+     * @return id added employee.
      */
-    Employee addEmployee(Employee employee);
+    int addEmployee(Employee employee);
 
     /**
      * Update employee.

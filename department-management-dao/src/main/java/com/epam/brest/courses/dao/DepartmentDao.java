@@ -24,9 +24,9 @@ public interface DepartmentDao {
     /**
      * Create new department.
      * @param department department.
-     * @return created department.
+     * @return id created department.
      */
-    Department addDepartment(Department department);
+    int addDepartment(Department department);
 
     /**
      * Update department.
