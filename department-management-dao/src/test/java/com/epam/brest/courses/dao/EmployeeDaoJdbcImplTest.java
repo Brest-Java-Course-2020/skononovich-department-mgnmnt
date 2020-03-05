@@ -9,6 +9,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -28,8 +30,20 @@ public class EmployeeDaoJdbcImplTest {
 
     @Test
     public void getEmployeeById() {
-        assertNotNull(employeeDao.getEmployeeById(1));
-        assertEquals((Integer)1, employeeDao.getEmployeeById(1).getDepartmentId());
+        Employee employee = new Employee();
+        employee.setDepartmentId(10);
+        employee.setFirstName("fname");
+        employee.setLastName("lname");
+        employee.setSalary((double) 40);
+        Integer empleId = employeeDao.addEmployee(employee);
+
+        Optional<Employee> optionalEmployee = employeeDao.getEmployeeById(empleId);
+
+        assertTrue(optionalEmployee.isPresent());
+        assertEquals(optionalEmployee.get().getSalary(), employee.getSalary());
+        assertEquals(optionalEmployee.get().getFirstName(), employee.getFirstName());
+        assertEquals(optionalEmployee.get().getLastName(), employee.getLastName());
+        assertEquals(optionalEmployee.get().getDepartmentId(), employee.getDepartmentId());
     }
 
     @Test
@@ -38,13 +52,10 @@ public class EmployeeDaoJdbcImplTest {
         addedEmployee.setDepartmentId(1);
         addedEmployee.setFirstName("FirstName");
         addedEmployee.setLastName("LastName");
-        Employee returnedEmployee = employeeDao.addEmployee(addedEmployee);
 
-        assertNotNull(returnedEmployee);
-        assertNotNull(returnedEmployee.getDepartmentId());
-        assertEquals((Integer)1, returnedEmployee.getDepartmentId());
-        assertEquals("FirstName", returnedEmployee.getFirstName());
-        assertEquals("LastName", returnedEmployee.getLastName());
+        Integer empleId = employeeDao.addEmployee(addedEmployee);
+
+        assertNotNull(empleId);
     }
 
     @Test
@@ -56,7 +67,7 @@ public class EmployeeDaoJdbcImplTest {
         employee.setLastName("LName");
         employee.setSalary(0d);
         employeeDao.updateEmployee(employee);
-        Employee addedEmployee = employeeDao.getEmployeeById(3);
+        Employee addedEmployee = employeeDao.getEmployeeById(3).get();
         assertEquals(employee.getEmployeeId(), addedEmployee.getEmployeeId());
         assertEquals(employee.getDepartmentId(), addedEmployee.getDepartmentId());
         assertEquals(employee.getFirstName(), addedEmployee.getFirstName());

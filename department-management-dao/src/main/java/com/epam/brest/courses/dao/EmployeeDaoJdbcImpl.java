@@ -1,6 +1,5 @@
 package com.epam.brest.courses.dao;
 
-import com.epam.brest.courses.model.Department;
 import com.epam.brest.courses.model.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
@@ -17,6 +15,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class EmployeeDaoJdbcImpl implements EmployeeDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeDaoJdbcImpl.class);
@@ -53,33 +52,32 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
     }
 
     @Override
-    public Employee getEmployeeById(Integer employeeId) {
+    public Optional<Employee> getEmployeeById(Integer employeeId) {
         LOGGER.debug("Вызван метод getEmployeeById");
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("employeeId", employeeId);
-        return namedParameterJdbcTemplate.queryForObject(sqlGetEmployeeById, parameters, new EmployeeRowMapper());
+        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(sqlGetEmployeeById, parameters, new EmployeeRowMapper()));
     }
 
     @Override
-    public Employee addEmployee(Employee employee) {
+    public int addEmployee(Employee employee) {
         LOGGER.debug("Вызван метод добаления сотрудника:" + employee.toString());
         namedParameterJdbcTemplate.update(sqlAddEmployee, getParameter(employee), keyHolder);
-        Employee addedEmployee = getEmployeeById(keyHolder.getKey().intValue());
-        return addedEmployee;
+        return keyHolder.getKey().intValue();
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
+    public int updateEmployee(Employee employee) {
         LOGGER.debug("Вызван метод обновления сотрудника с : id = " + employee.getEmployeeId());
-        namedParameterJdbcTemplate.update(sqlUpdateEmployee, getParameter(employee));
+        return namedParameterJdbcTemplate.update(sqlUpdateEmployee, getParameter(employee));
     }
 
     @Override
-    public void deleteEmployee(Integer employeeId) {
+    public int deleteEmployee(Integer employeeId) throws NullPointerException {
         LOGGER.debug("Вызван метод удаления департамента : id = " + employeeId);
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("employeeId", employeeId);
-        namedParameterJdbcTemplate.update(sqlDeleteEmployee, parameters);
+        return namedParameterJdbcTemplate.update(sqlDeleteEmployee, parameters);
     }
 
     private MapSqlParameterSource getParameter(Employee employee){

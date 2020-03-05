@@ -11,6 +11,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -41,11 +43,11 @@ public class DepartmentDaoJdbcImplTest {
     public void addDepartment() {
         Department addedDepartment = new Department();
         addedDepartment.setDepartmentName("SECURITY");
-        Department returnedDepartment = departmentDao.addDepartment(addedDepartment);
+        int returnedDepartmentId = departmentDao.addDepartment(addedDepartment);
+        Optional<Department> optionalDepartment = departmentDao.getDepartmentById(returnedDepartmentId);
 
-        assertNotNull(returnedDepartment);
-        assertNotNull(returnedDepartment.getDepartmentId());
-        assertEquals("SECURITY", returnedDepartment.getDepartmentName());
+        assertTrue(optionalDepartment.isPresent());
+        assertEquals(addedDepartment.getDepartmentName(), optionalDepartment.get().getDepartmentName());
     }
 
     @Test
@@ -67,19 +69,20 @@ public class DepartmentDaoJdbcImplTest {
         department.setDepartmentId(1);
         department.setDepartmentName("TEST");
         departmentDao.updateDepartment(department);
-        assertEquals(department.getDepartmentName(), departmentDao.getDepartmentById(1).getDepartmentName());
+        assertTrue(departmentDao.getDepartmentById(1).isPresent());
+        assertEquals(department.getDepartmentName(), departmentDao.getDepartmentById(1).get().getDepartmentName());
     }
 
-    @Test //exceptionassertEquals(
+    @Test
     public void updateInvalidDepartment() {
-        Department department = departmentDao.getDepartmentById(1);
+        Department department = departmentDao.getDepartmentById(1).get();
         department.setDepartmentName(null);
         assertThrows(DataIntegrityViolationException.class, () -> departmentDao.updateDepartment(department));
     }
 
-    @Test //exception
+    @Test
     public void updateDepartmentConflict() {
-        Department department = departmentDao.getDepartmentById(1);
+        Department department = departmentDao.getDepartmentById(1).get();
         department.setDepartmentName("DEVELOPERS");
         assertThrows(DataIntegrityViolationException.class, () -> departmentDao.updateDepartment(department));
     }

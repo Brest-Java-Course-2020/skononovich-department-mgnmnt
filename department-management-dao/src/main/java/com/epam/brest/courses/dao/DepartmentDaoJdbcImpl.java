@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class DepartmentDaoJdbcImpl implements DepartmentDao {
 
@@ -49,36 +50,35 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
     }
 
     @Override
-    public Department getDepartmentById(Integer departmentId) {
+    public Optional<Department> getDepartmentById(Integer departmentId) {
         LOGGER.debug("Вызван метод получения департамента по его ID = " + departmentId);
         SqlParameterSource parameters = new MapSqlParameterSource().addValue("departmentId", departmentId);
-        return namedParameterJdbcTemplate.queryForObject(
-                SQL_GET_DEPARTMENT_BY_ID, parameters, new DepartmentRowMapper());
+        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
+                SQL_GET_DEPARTMENT_BY_ID, parameters, new DepartmentRowMapper()));
     }
 
     @Override
-    public Department addDepartment(Department department) {
+    public int addDepartment(Department department) {
         LOGGER.debug("Вызван метод добаления департамента:" + department.toString());
         SqlParameterSource parameters = new MapSqlParameterSource().addValue("departmentName", department.getDepartmentName());
         namedParameterJdbcTemplate.update(SQL_ADD_DEPARTMENT, parameters, keyHolder);
-        Department addedDepartment = getDepartmentById(keyHolder.getKey().intValue());
-        return addedDepartment;
+        return keyHolder.getKey().intValue();
     }
 
     @Override
-    public void updateDepartment(Department department) {
+    public int updateDepartment(Department department) {
         LOGGER.debug("Вызван метод обновления департамента с : id = " + department.getDepartmentId());
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("departmentId", department.getDepartmentId());
         parameters.addValue("departmentName", department.getDepartmentName());
-        namedParameterJdbcTemplate.update(SQL_UPDATE_DEPARTMENT, parameters);
+        return namedParameterJdbcTemplate.update(SQL_UPDATE_DEPARTMENT, parameters);
     }
 
     @Override
-    public void deleteDepartment(Integer departmentId) {
+    public int deleteDepartment(Integer departmentId) {
         LOGGER.debug("Вызван метод удаления департамента : id = " + departmentId);
         SqlParameterSource parameters = new MapSqlParameterSource().addValue("departmentId", departmentId);
-        namedParameterJdbcTemplate.update(SQL_DELETE_DEPARTMENT, parameters);
+        return namedParameterJdbcTemplate.update(SQL_DELETE_DEPARTMENT, parameters);
     }
 
     private class DepartmentRowMapper implements RowMapper<Department> {
