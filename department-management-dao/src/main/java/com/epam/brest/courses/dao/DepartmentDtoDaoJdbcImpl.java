@@ -1,8 +1,6 @@
 package com.epam.brest.courses.dao;
 
 import com.epam.brest.courses.model.dto.DepartmentDto;
-
-import com.epam.brest.courses.model.dto.DepartmentDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
