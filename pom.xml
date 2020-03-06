@@ -13,6 +13,7 @@
         <module>department-management-model</module>
         <module>department-management-dao</module>
         <module>department-management-test</module>
+        <module>department-management-service-api</module>
         <module>department-management-web-app</module>
     </modules>
 
