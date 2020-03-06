@@ -39,4 +39,12 @@ public interface EmployeeService {
      * @return number of deleted records.
      */
     int delete(Integer employeeId);
+
+    /**
+     * Get all employees with specified department id.
+     *
+     * @param departmentId department id
+     * @return list of employees by department id
+     */
+    List<Employee> findByDepartmentId(Integer departmentId);
 }

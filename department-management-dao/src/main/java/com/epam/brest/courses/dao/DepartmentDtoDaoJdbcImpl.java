@@ -25,9 +25,8 @@ public class DepartmentDtoDaoJdbcImpl implements DepartmentDtoDao {
 
     @Override
     public List<DepartmentDto> findAllWithAvgSalary() {
-        List<DepartmentDto> departments = namedParameterJdbcTemplate.query(findAllWithAvgSalarySql,
+        return namedParameterJdbcTemplate.query(findAllWithAvgSalarySql,
                 BeanPropertyRowMapper.newInstance(DepartmentDto.class));
-        return departments;
     }
 
 }

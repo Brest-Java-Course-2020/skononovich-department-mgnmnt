@@ -35,7 +35,7 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
     @Value("${department.sqlDeleteDepartment}")
     private String SQL_DELETE_DEPARTMENT;
 
-    private KeyHolder keyHolder = new GeneratedKeyHolder();
+    private KeyHolder keyHolder;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
