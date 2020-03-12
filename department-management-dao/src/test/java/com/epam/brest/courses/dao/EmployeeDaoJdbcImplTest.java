@@ -1,5 +1,4 @@
 package com.epam.brest.courses.dao;
-import com.epam.brest.courses.model.Department;
 import com.epam.brest.courses.model.Employee;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
