@@ -1,4 +1,5 @@
-insert into employee(departmentId, firstName, lastName, salary) values (1, 'Anton', 'Chehov', 900);
-insert into employee(departmentId, firstName, lastName, salary) values (1, 'Teodor', 'Drizer', 1100);
-insert into employee(departmentId, firstName, lastName, salary) values (2, 'Erih-Maria', 'Remark', 800);
-insert into employee(departmentId, firstName, lastName, salary) values (2, 'Konan', 'Doile', 600);
+INSERT INTO employee (employeeId, firstName, lastName, salary, departmentId) VALUES (1, 'FUSER10', 'LUSER10', 100, 1);
+INSERT INTO employee (employeeId, firstName, lastName, salary, departmentId) VALUES (2, 'FUSER11', 'LUSER11', 200, 1);
+INSERT INTO employee (employeeId, firstName, lastName, salary, departmentId) VALUES (3, 'FUSER21', 'LUSER21', 300, 2);
+INSERT INTO employee (employeeId, firstName, lastName, salary, departmentId) VALUES (4, 'FUSER22', 'LUSER22', 400, 2);
+INSERT INTO employee (employeeId, firstName, lastName, salary, departmentId) VALUES (5, 'FUSER23', 'LUSER23', 500, 2);

@@ -39,11 +39,11 @@
         <constructor-arg ref="departmentDtoDao"/>
     </bean>
 
-    <bean id="departmentDao" class="com.epam.brest.courses.dao.DepartmentDaoJdbc">
+    <bean id="departmentDao" class="com.epam.brest.courses.dao.DepartmentDaoJdbcImpl">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 
-    <bean id="departmentDtoDao" class="com.epam.brest.courses.dao.DepartmentDtoDaoJdbc">
+    <bean id="departmentDtoDao" class="com.epam.brest.courses.dao.DepartmentDtoDaoJdbcImpl">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
 

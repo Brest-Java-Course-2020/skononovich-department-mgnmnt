@@ -8,11 +8,13 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class DepartmentDaoJdbcImpl implements DepartmentDao {
@@ -34,7 +36,7 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
     @Value("${department.sqlDeleteDepartment}")
     private String SQL_DELETE_DEPARTMENT;
 
-    private KeyHolder keyHolder;
+    private KeyHolder keyHolder = new GeneratedKeyHolder();
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -61,7 +63,7 @@ public class DepartmentDaoJdbcImpl implements DepartmentDao {
         LOGGER.debug("Вызван метод добаления департамента:" + department.toString());
         SqlParameterSource parameters = new MapSqlParameterSource().addValue("departmentName", department.getDepartmentName());
         namedParameterJdbcTemplate.update(SQL_ADD_DEPARTMENT, parameters, keyHolder);
-        return keyHolder.getKey().intValue();
+        return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
     @Override
