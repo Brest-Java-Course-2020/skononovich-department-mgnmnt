@@ -1,4 +1,4 @@
-package com.epam.brest.courses.model.dto;
+package com.epam.brest.courses.model;
 
 import java.math.BigDecimal;
 

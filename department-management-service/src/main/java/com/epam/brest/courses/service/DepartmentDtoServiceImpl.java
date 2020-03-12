@@ -1,7 +1,7 @@
 package com.epam.brest.courses.service;
 
 import com.epam.brest.courses.dao.DepartmentDtoDao;
-import com.epam.brest.courses.model.dto.DepartmentDto;
+import com.epam.brest.courses.model.DepartmentDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.epam.brest.courses.service;
 
-import com.epam.brest.courses.model.dto.DepartmentDto;
+import com.epam.brest.courses.model.DepartmentDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,10 @@
 package com.epam.brest.courses.rest;
 
 import com.epam.brest.courses.model.Department;
-import com.epam.brest.courses.model.dto.DepartmentDto;
+import com.epam.brest.courses.model.DepartmentDto;
+import com.epam.brest.courses.rest.exception.DepartmentNotFoundException;
 import com.epam.brest.courses.service.DepartmentDtoService;
 import com.epam.brest.courses.service.DepartmentService;
-import com.epam.brest.courses.rest.exception.DepartmentNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
