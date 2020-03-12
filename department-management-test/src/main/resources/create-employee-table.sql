@@ -4,6 +4,6 @@ CREATE TABLE employee (
   departmentId INT NOT NULL,
   firstName VARCHAR(30) NOT NULL,
   lastName VARCHAR(30) NOT NULL,
-  salary DECIMAL,
+  salary INT,
   PRIMARY KEY (employeeId)
 );
